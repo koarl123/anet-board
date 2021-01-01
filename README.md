@@ -28,7 +28,23 @@ Then:
 **Note:** The Optiboot board option is highly recommended as the Optiboot bootloader uses much less space than the standard Atmega 1284p bootloader, allowing more flash space for the firmware.  If you choose to use the Optiboot option you **MUST** burn the Optiboot bootloader before uploading firmware, otherwise you risk overwriting the bootloader.
 
 When uploading firmware, use Sketch->Upload (Ctrl+U), which uploads over the USB connection, **not** Sketch->Upload Using Programmer (unless you're actually using an Arduino programmer and know what you're doing).
+## Check connection hints on page 
+https://www.marcuslausch.de/2017/03/10/ctc-prusa-i3-bootloader-installieren/
+Connection is done via J3 and power supply is provided by the USBasp via 5V VCC at LCD plug!!
 
+## Prerequisites
+Backup the previously flashed code via avrdude using the command
+> avrdude avrdude.conf -c usbasp -b 57600 -i 10 -p m1284p -U flash:r:factory_Anet10_FLASH.hex:i
+
+Then, store EEPROM data the same way:
+> avrdude avrdude.conf -c usbasp -b 57600 -i 10 -p m1284p -U eeprom:r:factory_Anet10_EEPROM.hex:i
+
+Do the same with fuses and locks:
+> avrdude avrdude.conf -c usbasp -b 57600 -i 10 -p m1284p -U lfuse:r:factory_Anet10_LFUSE.hex:i
+
+>avrdude avrdude.conf -c usbasp -b 57600 -i 10 -p m1284p -U hfuse:r:factory_Anet10_HFUSE.hex:i
+
+> avrdude avrdude.conf -c usbasp -b 57600 -i 10 -p m1284p -U efuse:r:factory_Anet10_EFUSE.hex:i
 ## Burning the Bootloader
 Burning the bootloader to the board requires either an Arduino programmed as an ISP, or a USBasp.  The programmer is connected to the middle six pins of the J3 connector on the Anet v1.0 board.
 
